@@ -1,0 +1,53 @@
+﻿@model IEnumerable<PrisonApp.Models.Wiezniowie>
+
+@{
+    ViewBag.Title = "WyswietlWiezniow";
+}
+
+<h2>Przydziel nowego więźnia</h2>
+<div class="row">
+    <div class="col-md-8">
+        <h4>Przydziel więźnia do celi.</h4>
+    </div>
+</div>
+<br/>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ImieWieznia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NazwiskoWieznia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pesel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Plec)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImieWieznia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NazwiskoWieznia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pesel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Plec)
+            </td>
+            <td>
+                @Html.ActionLink("Przydziel", "PrzeniesWieznia", "Zmiany", new {id = item.idWieznia}, new {@class = "btn btn-primary"})
+
+            </td>
+        </tr>
+    }
+</table>

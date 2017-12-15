@@ -1,0 +1,75 @@
+﻿@model IEnumerable<PrisonApp.Models.ViewModels.HistoriaZmianWiezniaViewModel>
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>WyswietlHistorieWieznia</title>
+</head>
+<body>
+
+<h2>Historia</h2>
+<div class="row">
+    <div class="col-md-8">
+        <h4>Historia edycji danych więźniów.</h4>
+    </div>
+</div>
+<br/>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.idWieznia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImieWieznia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NazwiskoWieznia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pesel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Plec)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pracownik)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Data)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.idWieznia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImieWieznia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NazwiskoWieznia)
+            </td>
+            <td>
+                 @Html.DisplayFor(modelItem => item.Pesel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Plec)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pracownik)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data)
+            </td>
+        </tr>
+    }
+
+</table>
+</body>
+</html>

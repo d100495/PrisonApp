@@ -1,0 +1,73 @@
+﻿@model PrisonApp.Models.ViewModels.EdytujWyrokViewModel
+
+
+<!DOCTYPE html>
+
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Edytuj wyrok</title>
+</head>
+
+<body>
+
+<h2>Edytuj wyrok</h2>
+<div class="row">
+    <div class="col-md-8">
+
+        @using (Html.BeginForm("EdytujWyrok", "Zmiany", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+        {
+            <h4>Edytuj wyrok więźnia.</h4>
+            <hr/>
+
+            <div class="validation-message">
+                @Html.ValidationSummary(null, "")
+            </div>
+
+
+            @Html.HiddenFor(model => model.idWieznia)
+            @Html.HiddenFor(model => model.Wyrok.idWyroku)
+            @Html.HiddenFor(model => model.Wyrok.FK_idWieznia)
+            // @Html.HiddenFor(model=>model.Plec)
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Wyrok.Czas, new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Wyrok.Czas, new {htmlAttributes = new {@class = "form-control"}})
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Wyrok.DataRozpoczecia, "Data rozpoczęcia", new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Wyrok.DataRozpoczecia, new {htmlAttributes = new {@class = "form-control"}})
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Wyrok.FK_idKategoriiPrzestepstwa, new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Wyrok.FK_idKategoriiPrzestepstwa, ViewBag.KatList as SelectList, "Wybierz...", new {@class = "form-control"})
+                </div>
+            </div>
+
+
+            <br/>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Zatwierdź" class="btn btn-default"/>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+
+</body>
+</html>

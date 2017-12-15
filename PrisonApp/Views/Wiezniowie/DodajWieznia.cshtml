@@ -1,0 +1,126 @@
+﻿@model PrisonApp.Models.ViewModels.WiezienViewModel
+
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>DodajWieznia</title>
+</head>
+
+
+<body>
+
+
+<h2>Dodaj więźnia</h2>
+<div class="row">
+    <div class="col-md-8">
+        <h4>Dodaj nowego więźnia.</h4>
+    </div>
+</div>
+
+<hr/>
+
+<div class="row">
+    <div class="form-horizontal">
+
+
+
+        @using (Html.BeginForm("DodajWieznia", "Wiezniowie", FormMethod.Post))
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.idKategoriiPrzestepstwa, "Kategoria przestępstwa", new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.idKategoriiPrzestepstwa, ViewBag.KatList as SelectList, "Wybierz kategorię...", new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.idKategoriiPrzestepstwa, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+
+            <div class="form-group">
+
+                @Html.LabelFor(model => model.ImieWieznia, "Imie więźnia", new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.ImieWieznia, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.ImieWieznia, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NazwiskoWieznia, "Nazwisko więźnia", new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.NazwiskoWieznia, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.NazwiskoWieznia, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Czas, new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Czas, new {placeholder = "Podaj czas wyroku w miesiącach", @class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.Czas, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DataRozpoczecia, new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DataRozpoczecia, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.DataRozpoczecia, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Plec, new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Plec, new {placeholder = "Podaj w formacie: 'M' lub 'K' (duża litera)", @class = "form-control", id = "gend"})
+                    @Html.ValidationMessageFor(model => model.Plec, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Pesel, new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Pesel, new {@class = "form-control", id = "pes"})
+                    @Html.ValidationMessageFor(model => model.Pesel, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+
+            <br/>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Dodaj" class="btn btn-default"/>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+
+</body>
+</html>
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.maskedinput.js"></script>
+
+<script type="text/javascript">
+    jQuery(function($) {
+        $.mask.definitions['~'] = '[01]';
+        $.mask.definitions['!'] = '[MK]';
+        $.mask.definitions['='] = '[012]';
+        $('#date').mask('9999-~9-99', { placeholder: "____-__-__" });
+        $('#gend').mask('!', { placeholder: "_" });
+        $('#pes').mask('99999999999', { placeholder: "___________" });
+        // $('#czas').mask('=9:99:99', { placeholder: "__:__:__" });
+    });
+</script>

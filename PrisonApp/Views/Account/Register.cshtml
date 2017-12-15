@@ -1,0 +1,135 @@
+﻿@model PrisonApp.Models.ViewModels.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Register</title>
+</head>
+
+<body>
+
+<h2>Rejestracja</h2>
+<div class="row">
+    <div class="col-md-8">
+        <h4>Dodaj nowego użytkownika.</h4>
+    </div>
+</div>
+
+<hr/>
+
+<div class="row">
+
+    <section id="registerForm">
+        @*@using (Html.BeginForm("Register", "Uzytkownicy", FormMethod.Post))*@
+        @using (Html.BeginForm("Register", "Account", new {ViewBag.ReturnUrl}, FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+        {
+            @Html.AntiForgeryToken()
+
+
+            @Html.HiddenFor(model => model.Id)
+
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, "E-mail", new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Email, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.Email, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserName, "Nazwa użytkownika", new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.UserName, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.UserName, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, "Imie", new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Name, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Surname, "Nazwisko", new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Surname, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.Surname, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Pesel, "Pesel", new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Pesel, new {@class = "form-control", id = "pes"})
+                    @Html.ValidationMessageFor(model => model.Pesel, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password, "Hasło", new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.Password, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.Password, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.ConfirmPassword, "Potwierdź hasło", new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.Label("Typ konta", new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.Role, ViewBag.lista as SelectList, "Wybierz...", new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.Role, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-default" value="Zarejestruj"/>
+                </div>
+            </div>
+        }
+    </section>
+</div>
+
+
+</body>
+</html>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.maskedinput.js"></script>
+
+<script type="text/javascript">
+    jQuery(function($) {
+        $.mask.definitions['~'] = '[01]';
+        $.mask.definitions['!'] = '[MK]';
+        $.mask.definitions['='] = '[012]';
+        $('#date').mask('9999-~9-99', { placeholder: "____-__-__" });
+        $('#gend').mask('!', { placeholder: "_" });
+        $('#pes').mask('99999999999', { placeholder: "___________" });
+        $('#czas').mask('=9:99:99', { placeholder: "__:__:__" });
+    });
+</script>

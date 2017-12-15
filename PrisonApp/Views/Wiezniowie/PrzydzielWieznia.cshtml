@@ -1,0 +1,57 @@
+﻿@model PrisonApp.Models.ViewModels.PrzydzialyViewModel
+
+@{
+    ViewBag.Title = "PrzydzielWieznia";
+}
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Przydziel więźnia</title>
+</head>
+
+<body>
+
+<h2>Przydziel więźnia</h2>
+<div class="row">
+    <div class="col-md-8">
+
+        @using (Html.BeginForm("PrzydzielWieznia", "Wiezniowie", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+        {
+            <h4>Przydziel więźnia do celi.</h4>
+            <hr/>
+
+            @Html.HiddenFor(x => x.idWieznia)
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.idWieznia, "ID więźnia: ", new {@class = "col-md-2 control-label"})
+                <div class="col-md-10IdDisplay">
+                    @Html.DisplayFor(x => x.idWieznia)
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.FK_idCeli, new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.DropDownListFor(x => x.FK_idCeli, ViewBag.CelList as SelectList, "Wybierz...", new {@class = "form-control"})
+                </div>
+            </div>
+
+
+            <br/>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Przydziel" class="btn btn-default"/>
+                </div>
+            </div>
+        }
+
+    </div>
+
+</div>
+
+
+</body>
+</html>

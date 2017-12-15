@@ -1,0 +1,23 @@
+﻿@{
+
+    var cLayout = "";
+
+    if (User.IsInRole("Administrator"))
+    {
+        cLayout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+
+    else if (User.IsInRole("Pracownik"))
+    {
+        cLayout = "~/Views/Shared/_PracownikLayout.cshtml";
+    }
+
+
+    else
+    {
+        cLayout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+
+    Layout = cLayout;
+}

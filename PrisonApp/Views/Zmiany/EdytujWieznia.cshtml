@@ -1,0 +1,91 @@
+﻿@model PrisonApp.Models.Wiezniowie
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>EdytujWieznia</title>
+</head>
+<body>
+
+
+<h2>Edycja więźnia</h2>
+<div class="row">
+    <div class="col-md-8">
+
+        @using (Html.BeginForm("EdytujWieznia", "Zmiany", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+        {
+            <h4>Edytuj dane istniejącego więźnia.</h4>
+            <hr/>
+
+
+            @Html.HiddenFor(model => model.idWieznia)
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ImieWieznia, new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ImieWieznia, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.ImieWieznia, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NazwiskoWieznia, new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NazwiskoWieznia, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.NazwiskoWieznia, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Pesel, new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Pesel, new {htmlAttributes = new {@class = "form-control", id = "pes"}})
+                    @Html.ValidationMessageFor(model => model.Pesel, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Plec, new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Plec, new {htmlAttributes = new {@class = "form-control", id = "gend", placeholder = "Podaj w formacie: 'M' lub 'K' (duża litera)"}})
+                    @Html.ValidationMessageFor(model => model.Plec, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+
+            <br/>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Zatwierdź" class="btn btn-default"/>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+
+</body>
+</html>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.maskedinput.js"></script>
+
+<script type="text/javascript">
+    jQuery(function($) {
+        $.mask.definitions['~'] = '[01]';
+        $.mask.definitions['!'] = '[MK]';
+        $.mask.definitions['='] = '[012]';
+        $('#date').mask('9999-~9-99', { placeholder: "____-__-__" });
+        $('#gend').mask('!', { placeholder: "_" });
+        $('#pes').mask('99999999999', { placeholder: "___________" });
+        $('#czas').mask('=9:99:99', { placeholder: "__:__:__" });
+    });
+</script>
