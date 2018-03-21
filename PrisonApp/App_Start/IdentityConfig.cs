@@ -6,23 +6,24 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using PrisonApp.Models;
-using PrisonApp.Models.Identity;
+using PrisonApplication.Models;
+using PrisonApplication.Models.Identity;
 
-namespace PrisonApp
+
+namespace PrisonApplication
 {
-    public class AppUserManager : UserManager<AppUser>
+    public class AppUserManager : UserManager<ApplicationUser>
     {
-        public AppUserManager(IUserStore<AppUser> store)
+        public AppUserManager(IUserStore<ApplicationUser> store)
             : base(store)
         {
         }
 
         public static AppUserManager Create(IdentityFactoryOptions<AppUserManager> options, IOwinContext context)
         {
-            var manager = new AppUserManager(new UserStore<AppUser>(context.Get<Model>()));
+            var manager = new AppUserManager(new UserStore<ApplicationUser>(context.Get<PrisonDatabase>()));
             // Configure validation logic for usernames
-            manager.UserValidator = new UserValidator<AppUser>(manager)
+            manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
                 AllowOnlyAlphanumericUserNames = true,
                 RequireUniqueEmail = false
@@ -31,9 +32,9 @@ namespace PrisonApp
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
-                RequiredLength = 6,
+                RequiredLength = 3,
                 RequireNonLetterOrDigit = false,
-                RequireDigit = true,
+                RequireDigit = false,
                 RequireLowercase = true,
                 RequireUppercase = false
             };
@@ -47,20 +48,20 @@ namespace PrisonApp
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
                 manager.UserTokenProvider =
-                    new DataProtectorTokenProvider<AppUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             return manager;
         }
     }
 
     // Configure the application sign-in manager which is used in this application.
-    public class ApplicationSignInManager : SignInManager<AppUser, string>
+    public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
     {
         public ApplicationSignInManager(AppUserManager userManager, IAuthenticationManager authenticationManager)
             : base(userManager, authenticationManager)
         {
         }
 
-        public override Task<ClaimsIdentity> CreateUserIdentityAsync(AppUser user)
+        public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
         {
             return user.GenerateUserIdentityAsync((AppUserManager) UserManager);
         }
@@ -84,7 +85,7 @@ namespace PrisonApp
             IOwinContext context)
         {
             var manager = new ApplicationRoleManager(
-                new RoleStore<IdentityRole>(context.Get<Model>()));
+                new RoleStore<IdentityRole>(context.Get<PrisonDatabase>()));
             return manager;
         }
     }

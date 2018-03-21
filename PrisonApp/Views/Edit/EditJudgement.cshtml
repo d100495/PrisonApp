@@ -1,0 +1,72 @@
+﻿@model PrisonApplication.Models.ViewModels.EditJudgementViewModel
+
+
+<!DOCTYPE html>
+
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit Judgement</title>
+</head>
+
+<body>
+
+    <h2>Edit Judgement</h2>
+    <div class="row">
+        <div class="col-md-8">
+
+            @using (Html.BeginForm("EditJudgement", "Edit", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <h4>Edit Judgement of prisoner</h4>
+                
+
+                <div class="validation-message">
+                    @Html.ValidationSummary(null, "")
+                </div>
+
+
+                @Html.HiddenFor(model => model.Prisoner_Id)
+                @Html.HiddenFor(model => model.Judgement.Judgement_Id)
+                @Html.HiddenFor(model => model.Judgement.FK_Judgements_Prisoners_Id)
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Judgement.TimeOfJudgement, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Judgement.TimeOfJudgement, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Judgement.StartDate, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Judgement.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Judgement.FK_Judgements_CategoriesOfCrimes_Id, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.Judgement.FK_Judgements_CategoriesOfCrimes_Id, ViewBag.KatList as SelectList, "Wybierz...", new { @class = "form-control" })
+                    </div>
+                </div>
+
+
+                <br />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Edit" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+
+</body>
+</html>

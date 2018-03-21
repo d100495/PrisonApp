@@ -1,0 +1,167 @@
+﻿@model IEnumerable<PrisonApplication.Models.ViewModels.ShowPrisonersViewModel>
+
+@{
+    ViewBag.Title = "WyswietlWiezniow";
+}
+
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Prisoners</title>
+</head>
+
+<body>
+
+
+    <div class="row">
+        <div class="col-md-8">
+            <h4>List of prisoners</h4>
+
+        </div>
+    </div>
+
+    <hr />
+
+   
+    @using (Html.BeginForm())
+    {
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <input type="submit" value="Szukaj" class="btn btn-secondary" />
+                    </span>
+                    @Html.TextBox("SearchString", null, new { @class = "form-control", placeholder = "Name, surname or pesel" })
+                </div>
+            </div>
+        </div>
+
+        <br />
+    }
+    @if (ViewBag.alert != null)
+    {
+        <div class="alert alert-danger">@ViewBag.alert</div>
+    }
+    <table class="table">
+        <tr>
+            <th>
+                @Html.ActionLink("Id", "GetPrisoners", new { sortOrder = ViewBag.IDSortParm }, new { style = "color:black;" })
+                @if (ViewBag.IDSortParm == "id_desc")
+            {
+                    <span>▼</span>
+                }
+                else
+                {
+                    <span>▲</span>
+                }
+            </th>
+
+            <th>
+                @Html.ActionLink("Name", "GetPrisoners", new { sortOrder = ViewBag.ImieSortParm }, new { style = "color:black;" })
+                @if (ViewBag.ImieSortParm == "name_desc")
+            {
+                    <span>▼</span>
+                }
+                else
+                {
+                    <span>▲</span>
+                }
+            </th>
+
+            <th>
+                @Html.ActionLink("Surname", "GetPrisoners", new { sortOrder = ViewBag.NazwiskoSortParm }, new { style = "color:black;" })
+                @if (ViewBag.NazwiskoSortParm == "surname_desc")
+            {
+                    <span>▼</span>
+                }
+                else
+                {
+                    <span>▲</span>
+                }
+            </th>
+
+            <th>
+                @Html.ActionLink("Pesel", "GetPrisoners", new { sortOrder = ViewBag.PeselSortParm }, new { style = "color:black;" })
+                @if (ViewBag.PeselSortParm == "pesel_desc")
+            {
+                    <span>▼</span>
+                }
+                else
+                {
+                    <span>▲</span>
+                }
+            </th>
+
+            <th>
+                @Html.ActionLink("Sex", "GetPrisoners", new { sortOrder = ViewBag.PlecSortParm }, new { style = "color:black;" })
+                @if (ViewBag.PlecSortParm == "sex_desc")
+            {
+                    <span>▼</span>
+                }
+                else
+                {
+                    <span>▲</span>
+                }
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Allocation.FK_Allocation_Cells_Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Judgement.CategoriesOfCrimes.NameOfCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Judgement.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prisoner.Prisoner_Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prisoner.PrisonerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prisoner.PrisonerSurname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prisoner.Pesel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prisoner.Sex)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Allocation.FK_Allocation_Cells_Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Judgement.CategoriesOfCrimes.NameOfCategory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Judgement.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.ActionLink("Move", "ReallocatePrisoner","Edit", new { id = item.Prisoner.Prisoner_Id }, new { @class = "btn-sm btn-primary" })
+                    @Html.ActionLink("Edit", "EditPrisoner", "Edit", new { id = item.Prisoner.Prisoner_Id }, new { @class = "btn-sm btn-primary" })
+                    @Html.ActionLink("Change Judgement", "EditJudgement","Edit", new { id = item.Prisoner.Prisoner_Id }, new { @class = "btn-sm btn-primary" })
+                    @Html.ActionLink("Release", "ReleasePrisoner", "Prisoners", new { id = item.Prisoner.Prisoner_Id }, new { @class = "btn-sm btn-primary" })
+                </td>
+            </tr>
+        }
+
+
+    </table>
+
+
+</body>
+</html>

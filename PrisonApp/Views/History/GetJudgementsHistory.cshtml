@@ -1,0 +1,71 @@
+﻿@model IEnumerable<PrisonApplication.Models.ViewModels.HistoryViewModels.JudgementsHistoryViewModel>
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Get history of judgements</title>
+</head>
+<body>
+
+    <h2>Historia</h2>
+    <div class="row">
+        <div class="col-md-8">
+            <h4>History of judgement changes</h4>
+        </div>
+    </div>
+    <br />
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Prisoner_Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TimeOfJudgement)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NameOfCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Worker)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prisoner_Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeOfJudgement)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NameOfCategory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Worker)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+            </tr>
+        }
+
+    </table>
+</body>
+</html>

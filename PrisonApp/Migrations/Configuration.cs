@@ -1,16 +1,18 @@
-using System.Data.Entity.Migrations;
-using PrisonApp.Models;
-
-namespace PrisonApp.Migrations
+namespace PrisonApplication.Migrations
 {
-    internal sealed class Configuration : DbMigrationsConfiguration<Model>
+    using System;
+    using System.Data.Entity;
+    using System.Data.Entity.Migrations;
+    using System.Linq;
+
+    internal sealed class Configuration : DbMigrationsConfiguration<PrisonApplication.Models.PrisonDatabase>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Model context)
+        protected override void Seed(PrisonApplication.Models.PrisonDatabase context)
         {
             //  This method will be called after migrating to the latest version.
 

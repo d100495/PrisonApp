@@ -1,0 +1,59 @@
+﻿@model IEnumerable<PrisonApplication.Models.ViewModels.HistoryViewModels.AllocationHistoryViewModel>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Get Allocation history</title>
+</head>
+<body>
+
+    <h2>Historia</h2>
+    <div class="row">
+        <div class="col-md-8">
+            <h4>History of allocation prisoners</h4>
+        </div>
+    </div>
+    <br />
+
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Prisoner_Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cell_Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Worker)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prisoner_Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cell_Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Worker)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</body>
+</html>

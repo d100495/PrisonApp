@@ -1,45 +1,39 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PrisonApp.Models.ViewModels
+namespace PrisonApplication.Models.ViewModels
 {
     public class RegisterViewModel
     {
         public string Id { get; set; }
 
         [Required]
-        [Display(Name = "Nazwa Użytkownika")]
+        [Display(Name = "Username")]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "Hasło jest wymagane")]
-        [StringLength(255, ErrorMessage = "Hasło musi posiadać minimum 6 znaków oraz 1 cyfrę", MinimumLength = 6)]
-        [RegularExpression(".*[0-9].*", ErrorMessage = "Hasło musi posiadać minimum 6 znaków oraz 1 cyfrę")]
+        [Required(ErrorMessage = "Password")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Required]
-        [Display(Name = "Potwierdź hasło")]
-        [Compare("Password", ErrorMessage = "Hasło oraz potwierdzenie hasła nie pasują do siebie")]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "Match error")]
         public string ConfirmPassword { get; set; }
 
         [Required]
-        [Display(Name = "Imię")]
+        [Display(Name = "Name")]
         public string Name { get; set; }
 
         [Required]
-        [Display(Name = "Nazwisko")]
+        [Display(Name = "Surname")]
         public string Surname { get; set; }
 
-        [Required]
-        [Display(Name = "Pesel")]
-        public string Pesel { get; set; }
-
         [EmailAddress]
-        [Required(ErrorMessage = "Podaj email")]
+        [Required(ErrorMessage = "Email")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Musisz wybrać typ konta")]
-        [Display(Name = "Typ konta")]
+        
+        [Display(Name = "Type of account")]
         public string Role { get; set; }
     }
 }

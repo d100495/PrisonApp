@@ -4,10 +4,11 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using PrisonApp.Models;
-using PrisonApp.Models.Identity;
+using PrisonApplication;
+using PrisonApplication.Models;
+using PrisonApplication.Models.Identity;
 
-namespace PrisonApp
+namespace PrisonApplication
 {
     public partial class Startup
     {
@@ -15,7 +16,7 @@ namespace PrisonApp
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context, user manager and signin manager to use a single instance per request
-            app.CreatePerOwinContext(Model.Create);
+            app.CreatePerOwinContext(PrisonDatabase.Create);
             app.CreatePerOwinContext<AppUserManager>(AppUserManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
             app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
@@ -31,7 +32,7 @@ namespace PrisonApp
                 {
                     // Enables the application to validate the security stamp when the user logs in.
                     // This is a security feature which is used when you change a password or add an external login to your account.  
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<AppUserManager, AppUser>(
+                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<AppUserManager, ApplicationUser>(
                         TimeSpan.FromMinutes(30),
                         (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }

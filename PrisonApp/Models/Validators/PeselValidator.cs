@@ -1,24 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web;
 
-namespace PrisonApp.Models.Validators
+namespace PrisonApplication.Models.Validators
 {
-    public class PeselValidator : ValidationAttribute
+  public class PeselValidator : ValidationAttribute
     {
-        private readonly Model _db = new Model();
+        private readonly PrisonDatabase _db = new PrisonDatabase();
+        public string Sex { get; }
 
         public PeselValidator()
         {
-            Plec = null;
+            Sex = null;
         }
 
-        public PeselValidator(string plec)
+        public PeselValidator(string sex)
         {
-            Plec = plec;
+            Sex = sex;
         }
 
-        public string Plec { get; }
+       
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
@@ -26,7 +29,7 @@ namespace PrisonApp.Models.Validators
             string pesel;
 
             if (validationContext.DisplayName == null)
-                errorMessage = "Nieprawidłowy numer PESEL";
+                errorMessage = "Invalid pesel";
             else
                 errorMessage = FormatErrorMessage(validationContext.DisplayName);
 
@@ -36,18 +39,18 @@ namespace PrisonApp.Models.Validators
             if (value is string)
                 pesel = value.ToString();
             else
-                return new ValidationResult("Pole PESEL wymaga tylko cyfr");
+                return new ValidationResult("Pesel needs number");
 
             if (pesel.Length != 11)
                 return new ValidationResult(errorMessage);
 
-            var flaga = false;
-            var wiezniowie = _db.Wiezniowie.Where(x => x.Pesel != pesel);
-            foreach (var z in wiezniowie)
+            var flag = false;
+            var prisoners = _db.Prisoners.Where(x => x.Pesel != pesel);
+            foreach (var z in prisoners)
                 if (z.Pesel == value.ToString())
-                    flaga = true;
-            if (flaga)
-                return new ValidationResult("Istnieje już taki numer PESEL w bazie");
+                    flag = true;
+            if (flag)
+                return new ValidationResult("Pesel exist in database");
 
 
             int[] weight = {1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
@@ -70,39 +73,39 @@ namespace PrisonApp.Models.Validators
                 {
                     k += temp * weight[i];
                 }
-            } //suma kontrolna
+            } //Check sum
 
 
-            if (Plec != null)
+            if (Sex != null)
             {
                 var n = Convert.ToInt32(pesel[9].ToString());
 
-                switch (Plec)
+                switch (Sex)
                 {
-                    case "K":
+                    case "F":
                         if (n % 2 != 0)
-                            return new ValidationResult("Płeć niezgodna z numerem PESEL - mężczyzna");
+                            return new ValidationResult("Invalid sex - male");
                         break;
 
                     case "M":
                         if (n % 2 != 1)
-                            return new ValidationResult("Płeć niezgodna z numerem PESEL - kobieta");
+                            return new ValidationResult("Invalid sex - female");
                         break;
 
                     default:
-                        var PlecInfo = validationContext.ObjectType.GetProperty(Plec);
-                        var PlecValue = (string) PlecInfo.GetValue(validationContext.ObjectInstance, null);
+                        var SexInfo = validationContext.ObjectType.GetProperty(Sex);
+                        var SexValue = (string) SexInfo.GetValue(validationContext.ObjectInstance, null);
 
-                        switch (PlecValue)
+                        switch (SexValue)
                         {
-                            case "K":
+                            case "F":
                                 if (n % 2 != 0)
-                                    return new ValidationResult("Płeć niezgodna z numerem PESEL - mężczyzna");
+                                    return new ValidationResult("Invalid sex - male");
                                 break;
 
                             case "M":
                                 if (n % 2 != 1)
-                                    return new ValidationResult("Płeć niezgodna z numerem PESEL - kobieta");
+                                    return new ValidationResult("Invalid sex - female");
                                 break;
                         }
                         break;

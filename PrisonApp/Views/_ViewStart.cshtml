@@ -2,14 +2,14 @@
 
     var cLayout = "";
 
-    if (User.IsInRole("Administrator"))
+    if (User.IsInRole("Admin"))
     {
         cLayout = "~/Views/Shared/_AdminLayout.cshtml";
     }
 
-    else if (User.IsInRole("Pracownik"))
+    else if (User.IsInRole("Worker"))
     {
-        cLayout = "~/Views/Shared/_PracownikLayout.cshtml";
+        cLayout = "~/Views/Shared/_WorkerLayout.cshtml";
     }
 
 

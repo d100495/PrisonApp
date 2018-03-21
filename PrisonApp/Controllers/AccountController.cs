@@ -1,26 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using PrisonApp.Models.Identity;
-using PrisonApp.Models.ViewModels;
-using Microsoft.Owin.Host;
-using PrisonApp.Models;
+using PrisonApplication.Models;
+using PrisonApplication.Models.Identity;
+using PrisonApplication.Models.ViewModels;
 
-namespace PrisonApp.Controllers
+
+namespace PrisonApplication.Controllers
 {
     //[Authorize]
     public class AccountController : Controller
     {
-        private Model _db = new Model();
+        private PrisonDatabase _db = new PrisonDatabase();
         private ApplicationSignInManager _signInManager;
         private AppUserManager _userManager;
         //   private ApplicationRoleManager _roleManager;
@@ -72,7 +68,6 @@ namespace PrisonApp.Controllers
         //
         // POST: /Account/Login
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
@@ -87,7 +82,7 @@ namespace PrisonApp.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToAction("WyswietlWiezniow", "Zmiany");
+                    return RedirectToAction("GetPrisoners", "Prisoners");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 //  case SignInStatus.RequiresVerification:
@@ -99,16 +94,15 @@ namespace PrisonApp.Controllers
             }
         }
 
-
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Register()
         {
             var list = new SelectList(new List<SelectListItem>
             {
-                new SelectListItem {Text = "Pracownik", Value = "Pracownik"},
-                new SelectListItem {Text = "Administrator", Value = "Administrator"},
+                new SelectListItem {Text = "Worker", Value = "Worker"},
+                new SelectListItem {Text = "Admin", Value = "Admin"},
             }, "Value", "Text");
-            ViewBag.lista = list;
+            ViewBag.list = list;
 
             return View();
         }
@@ -117,19 +111,19 @@ namespace PrisonApp.Controllers
         // GET: /Account/Register
 
         [HttpPost]
-        [Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             var list = new SelectList(new List<SelectListItem>
             {
-                new SelectListItem {Text = "Pracownik", Value = "Pracownik"},
-                new SelectListItem {Text = "Administrator", Value = "Administrator"},
+                new SelectListItem {Text = "Worker", Value = "Worker"},
+                new SelectListItem {Text = "Admin", Value = "Admin"},
             }, "Value", "Text");
-            ViewBag.lista = list;
+            ViewBag.list = list;
             if (ModelState.IsValid)
             {
-                var user = new AppUser { UserName = model.UserName, Email = model.Email, Imie = model.Name, Nazwisko = model.Surname, Pesel = model.Pesel };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Name = model.Name, Surname = model.Surname};
 
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -143,7 +137,7 @@ namespace PrisonApp.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("WyswietlWiezniow", "Wiezniowie");
+                    return RedirectToAction("GetPrisoners", "Prisoners");
                 }
                 AddErrors(result);
             }
@@ -207,7 +201,7 @@ namespace PrisonApp.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("GetPrisoners", "Prisoners");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

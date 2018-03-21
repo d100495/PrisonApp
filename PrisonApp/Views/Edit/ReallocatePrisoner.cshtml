@@ -1,0 +1,55 @@
+﻿@model PrisonApplication.Models.ViewModels.AllocationViewModel
+
+@{
+    ViewBag.Title = "PrzydzielWieznia";
+}
+
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Reallocate prisoner</title>
+</head>
+
+<body>
+
+
+    <h2>Raellocate Prisoner</h2>
+
+    <div class="row">
+        <div class="col-md-8">
+
+            @using (Html.BeginForm("ReallocatePrisoner", "Edit", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <h4>Move prisoner to another cell</h4>
+                <hr />
+
+
+                @Html.HiddenFor(x => x.Prisoner_Id)
+                @Html.HiddenFor(x=>x.Sex)
+
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Cell_Id, new { @class = "col-md-2 control-label" })
+
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(x => x.Cell_Id, ViewBag.CelList as SelectList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Cell_Id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Move" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+
+</body>
+</html>
